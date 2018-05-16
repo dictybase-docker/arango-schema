@@ -1,0 +1,6 @@
+type: database
+action: create
+name: auth
+allowed:
+    - user: dictybase
+      grant: rw
