@@ -4,7 +4,7 @@ RUN apk add --no-cache git build-base \
     && go get github.com/golang/dep/cmd/dep \
     && mkdir -p /go/src/github.com
 WORKDIR /go/src/github.com
-RUN git clone github.com/dictybase-docker/arangomanager \
+RUN git clone https://github.com/dictybase-docker/arangomanager.git \
     && cd arangomanager \
     && dep ensure \
     && go build -o app
