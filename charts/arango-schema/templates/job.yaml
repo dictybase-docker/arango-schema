@@ -1,0 +1,42 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ template "arango-schema.fullname" . }}
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec:
+  template:
+    metadata:
+      name: {{ template "arango-schema.fullname" . }}
+      labels:
+        app: {{ template "arango-schema.fullname" . }}
+    spec:
+      containers:
+      - name: {{ template "arango-schema.fullname" . }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+        args: [
+          "--log-level",
+          "{{ .Values.arguments.logLevel }}",
+          "run",
+        {{- if .Values.isSecure }}
+          "--is-secure"
+        {{- end }}
+        {{- if .Values.passwordFile }}
+          "--pwfile",
+          "/etc/pwfile",
+        {{- end }}
+          "--dir",
+          "{{ .Values.arguments.dir }}"
+        ]
+        volumeMounts:
+          - name: pw-volume
+            mountPath: /etc/pwfile
+            readOnly: true
+      volumes:
+        - name: pw-volume
+          configMap: 
+            name: {{ template "arango-schema.name" . }}
+      restartPolicy: Never

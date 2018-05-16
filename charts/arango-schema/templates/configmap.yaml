@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "arango-schema.name" . }} 
+  labels:
+    app: {{ template "arango-schema.fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+data:
+  {{- if .Values.passwordFile }}
+   arangoSchema.passwordFile: {{  .Values.passwordFile }}
+  {{- end }}
