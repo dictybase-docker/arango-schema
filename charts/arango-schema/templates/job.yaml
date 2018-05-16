@@ -19,17 +19,17 @@ spec:
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
         args: [
           "--log-level",
-          "{{ .Values.arguments.logLevel }}",
+          "{{ .Values.logLevel }}",
           "run",
         {{- if .Values.isSecure }}
-          "--is-secure"
+          "--is-secure",
         {{- end }}
         {{- if .Values.passwordFile }}
           "--pwfile",
-          "/etc/pwfile",
+          "/etc/pwfile/arangoSchema.passwordFile",
         {{- end }}
           "--dir",
-          "{{ .Values.arguments.dir }}"
+          "{{ .Values.dir }}"
         ]
         volumeMounts:
           - name: pw-volume
@@ -37,6 +37,6 @@ spec:
             readOnly: true
       volumes:
         - name: pw-volume
-          configMap: 
-            name: {{ template "arango-schema.name" . }}
+          secret: 
+            secretName: {{ template "arango-schema.name" . }}
       restartPolicy: Never

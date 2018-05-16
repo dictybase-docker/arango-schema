@@ -6,10 +6,9 @@ image:
   tag: 0.0.2
   pullPolicy: IfNotPresent
 
-arguments:
-  logLevel: debug
-  isSecure: true
-  dir: /usr/src/appdata
+logLevel: debug
+isSecure: true
+dir: /usr/src/appdata
 # passwordFile:
 
 
