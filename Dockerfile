@@ -14,3 +14,4 @@ RUN apk --no-cache add ca-certificates
 COPY --from=0 /go/src/github.com/arangomanager/app /usr/local/bin/
 RUN mkdir -p /usr/src/appdata
 COPY *.yaml /usr/src/appdata/
+ENTRYPOINT ["/usr/local/bin/app"]
